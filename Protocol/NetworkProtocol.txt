@@ -1,0 +1,78 @@
+Nikko Patten & Chris Lee
+
+Network Protocol for Distributed Ingenious Computer Game. 
+
+Types of interactions:
+	-Registration
+	-Turn
+
+General Requirements:
+	Any unexpected message from a remote Strategy will result in that Players immediate removal from the game. 
+	This should not be an issue since all interactions are initiated from the server side. 
+	A kicked Player will not recieve any specific notificaton of such, they simply stop receiving further messages from the Admin.
+	Any further attempts of communication from the Player will be ignored by the Admin. 
+	
+==================================================================================================================
+Registration
+	Registration Has two messages:
+	
+	-Request to Join Game.
+		Context: From Client to Server, During Game registration.
+		Purpose: To inform admin of new player strategy, their name, and establish a connection. 
+		Expected Response: boolean 
+		XML Formatting:
+			<register name=String />
+
+
+	-Confirm/Deny Registration
+		Context: from Server to Client, in response to join game request. 
+		Purpose: To inform Player of whether they successfully registered their strategy for the game. 
+		Expected Response: none
+		XML Formatting:
+			 boolean is one of: 
+                 -- <true />
+                 -- <false />
+
+============================================================
+Play Turn
+	
+	-OpponentScores		
+		Context: From Strategy Proxy to Player Proxy, at begging of each new turn. 
+		Purpose: inform the strategy of opposing players scores. 
+		Expected Response: none
+		XML Formatting:
+			OpponentScores   ==   <OpponentScores>PlayerScore … </ OpponentScores>
+								  %% there are (PlayerNumber - 1) PlayerScore(s)
+								  
+			PlayerScore      ==   <PlayerScore playerName=String>
+									<score orange=Nat red=Nat green=Nat yellow=Nat purple=Nat blue=Nat />
+								  </PlayerScore>
+								  
+			Score            ==   <score orange=Nat red=Nat green=Nat yellow=Nat purple=Nat blue=Nat />
+			Nat              ==   a natural number less than 1,000,000 
+	
+	
+	-PlacementRequest
+		Context: From Strategy Proxy to Player Proxy, for each required 'move' in a turn 
+		Purpose: to request the next placement from the strategy
+		Expected Response: Placement
+		XML Formatting:
+			PlacementRequest ==  <PlacementRequest> Board Score Tile ... </PlacementRequest>
+			Board            ==   <board players=PlayerNumber> Placement ... </board>
+								  %%  (2 < PlayerNumber < 6)
+
+	-Placement
+		Context: From Player Proxy to Strategy Proxy, in response to PlacementRequest
+		Purpose: to return the next move according to the remote strategy. 
+		Expected Response: none
+		XML Formatting:
+			Placement        ==   <placement c0=Color d0=Nat a0=Nat c1=Color d1=Nat a1=Nat />
+			
+	-rerack?
+		Context: From Strategy Proxy to Player Proxy, when rerack is availible to player. 
+		Purpose: to query the strategy if it wants to utilize the availible rerack. 
+		Expected Response: boolean
+		XML Formatting:
+			rerack?    ==   <rerack />
+
+

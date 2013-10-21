@@ -1,0 +1,55 @@
+10
+
+dir
+2564
+https://trac.ccs.neu.edu/svn/cs6515/pair08/12/Source/ingenious
+https://trac.ccs.neu.edu/svn/cs6515
+
+
+
+2011-04-05T20:30:52.231243Z
+2545
+npatten
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+667b467f-ea7a-4cd2-bd37-537d2dfd2f21
+
+admin
+dir
+
+board
+dir
+
+distributed
+dir
+
+gui
+dir
+
+hci
+dir
+
+player
+dir
+
+strategy
+dir
+
+suite
+dir
+
+turn
+dir
+

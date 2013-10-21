@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<project basedir="." default="build" name="hci">
+    <property environment="env"/>
+    <property name="src.dir" value="Source"/>
+    <property name="lib.dir" value="../lib" />
+    <property name="junit.output.dir" value="junit"/>
+    <property name="junit.dir" value="${lib.dir}/junit-4.8.2.jar" />
+    <property name="build.dir" value="build"/>
+    <property name="dist.dir" value="dist"/>
+    <property name="boot-jar" value="build/bootstrap.jar"/>
+    <property name="cofoja-jar" value="${lib.dir}/cofoja.jar"/>
+    <property name="target" value="1.6"/>
+    <property name="source" value="1.6"/>
+    
+    <path id="classpath">
+        <pathelement location="${build.dir}"/>
+        <pathelement location="${junit.dir}"/>
+        <fileset dir="${lib.dir}">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+    
+    <target name="init">
+        <mkdir dir="${build.dir}"/>
+        <copy includeemptydirs="false" todir="${build.dir}">
+            <fileset dir="${src.dir}">
+            </fileset>
+        </copy>
+    </target>
+    
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+        <delete dir="${dist.dir}"/>
+    </target>
+    
+    <target name="dist" depends="build">
+        <mkdir dir="${dist.dir}"/>
+        <copy includeemptydirs="false" todir="${dist.dir}">
+            <fileset dir="${lib.dir}">
+                <include name="**/*.jar"/>
+            </fileset>
+        </copy>
+        <jar destfile="${dist.dir}/dist.jar">
+            <fileset dir="${build.dir}" excludes="**/Test.class"/>
+			<manifest>
+				<attribute name="Main-Class" value="ingenious.suite.ProxyTurnTester" />
+                <attribute name="Class-Path" 
+			               value=". xstream-1.3.1.jar xpp3_min-1.1.4c.jar 
+                                  junit-4.8.2.jar cofoja.jar asm-all-3.3.1.jar" />
+			</manifest>
+        </jar>
+    </target>
+  
+    <target name="server" depends="build">
+        <copy includeemptydirs="false" todir="${dist.dir}">
+            <fileset dir="${lib.dir}">
+                <include name="**/*.jar"/>
+            </fileset>
+        </copy>
+        <jar destfile="${dist.dir}/server.jar">
+            <fileset dir="${build.dir}" excludes="**/Test.class"/>
+                        <manifest>
+                                <attribute name="Main-Class" value="ingenious.distributed.Server" />
+                <attribute name="Class-Path"
+                                       value=". xstream-1.3.1.jar xpp3_min-1.1.4c.jar
+                                  junit-4.8.2.jar cofoja.jar asm-all-3.3.1.jar" />
+                        </manifest>
+        </jar>
+    </target>
+
+    <target name="client" depends="build">
+        <copy includeemptydirs="false" todir="${dist.dir}">
+            <fileset dir="${lib.dir}">
+                <include name="**/*.jar"/>
+            </fileset>
+        </copy>
+        <jar destfile="${dist.dir}/client.jar">
+            <fileset dir="${build.dir}" excludes="**/Test.class"/>
+                        <manifest>
+                                <attribute name="Main-Class" value="ingenious.distributed.Client" />
+                <attribute name="Class-Path"
+                                       value=". xstream-1.3.1.jar xpp3_min-1.1.4c.jar
+                                  junit-4.8.2.jar cofoja.jar asm-all-3.3.1.jar" />
+                        </manifest>
+        </jar>
+    </target>
+ 
+    <target name="build" depends="init">
+        <javac srcdir="${build.dir}" destdir="${build.dir}" 
+               includeantruntime="false"
+               source="${source}" target="${target}">
+            <classpath refid="classpath" />
+        </javac>
+    </target>
+
+    <target name="unit-test" depends="build">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="on">
+            <jvmarg value="-javaagent:${cofoja-jar}" />
+      <jvmarg value="-Dcom.google.java.contract.configurator=com.google.java.contract.tests.Cofoja" />
+        	<formatter type="plain" usefile="false" />
+            <batchtest fork="yes" todir="${junit.output.dir}" haltonerror="yes" haltonfailure="yes">
+                <fileset dir="${build.dir}">
+                    <include name="**/*Test.java"/>
+                    <include name="**/Test*.java"/>
+                </fileset>
+            </batchtest>
+            <classpath refid="classpath"/>
+        </junit>
+    </target>
+
+</project>

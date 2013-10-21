@@ -1,0 +1,5 @@
+<turntest>
+        <turn><board players="2"/><score orange="0" red="0" green="0" yellow="0" purple="0" blue="0"/><tile c0="ORANGE" c1="BLUE"/><tile c0="GREEN" c1="PURPLE"/><tile c0="PURPLE" c1="YELLOW"/><tile c0="BLUE" c1="BLUE"/><tile c0="BLUE" c1="GREEN"/><tile c0="ORANGE" c1="BLUE"/></turn>
+        <administrator> <tile c0="GREEN" c1="GREEN"/><true/><rerack><tile c0="ORANGE" c1="BLUE"/><tile c0="ORANGE" c1="BLUE"/><tile c0="ORANGE" c1="BLUE"/><tile c0="ORANGE" c1="BLUE"/><tile c0="ORANGE" c1="BLUE"/><tile c0="ORANGE" c1="BLUE"/></rerack></administrator>
+        <actions> <placement c0="ORANGE" d0="0" a0="0" c1="BLUE" d1="1" a1="0"/><rerackable/><rerack/></actions>
+</turntest>

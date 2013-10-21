@@ -1,0 +1,50 @@
+1) FirstTurn
+	actions: valid first placement
+	admin: valid tile from tileBag
+
+<turntest>
+	<turn><board players="2"/><score orange="0" red="0" green="0" yellow="0" purple="0" blue="0"/><tile c0="ORANGE" c1="BLUE"/><tile c0="GREEN" c1="PURPLE"/><tile c0="PURPLE" c1="YELLOW"/><tile c0="BLUE" c1="BLUE"/><tile c0="BLUE" c1="GREEN"/><tile c0="ORANGE" c1="BLUE"/></turn>
+	<administrator> <tile c0="GREEN" c1="GREEN"> <administrator>
+	<actions> <placement c0="ORANGE" d0="4" a0="0" c1="BLUE" d1="5" a1="1"/></actions>
+</turntest>
+
+<results>
+	<tile c0="GREEN" c1="GREEN">	
+</results>
+
+2) FirstTurn
+	actions: valid first placement, rerackable, rerack
+	admin: valid tile from tileBag, true, tiles
+
+3) ExtraMoveTurn
+	actions: valid placement, rerackable
+	admin: tile 
+      Break, should make another placement
+
+<turntest>
+        <turn><board players="2"/><score orange="0" red="0" green="0" yellow="0" purple="0" blue="16"/><tile c0="ORANGE" c1="BLUE"/><tile c0="GREEN" c1="PURPLE"/><tile c0="PURPLE" c1="YELLOW"/><tile c0="BLUE" c1="BLUE"/><tile c0="BLUE" c1="GREEN"/><tile c0="ORANGE" c1="BLUE"/></turn>
+        <administrator> <tile c0="BLUE" c1="BLUE"> <administrator>
+        <actions> <placement c0="ORANGE" d0="4" a0="0" c1="BLUE" d1="5" a1="1"/></actions>
+</turntest>
+
+4) ExtraMoveTurn
+	actions: valid placement, valid placement, rerackable
+	admin: tile, tile, false
+
+5) NormalTurn
+	actions: valid placement, rerack
+	admin: tile
+       Break, not allowed to rerack
+
+6) NormalTurn
+	actions: rerack
+	admin:
+       Break, not allowed to rerack first
+7) FirstTurn
+	actions: invalid first turn
+	admin: none
+       Break, invalid first turn placement
+8)NormalTurn
+	action: valid placement
+	admin: null tile 
+test inversion of tile colors

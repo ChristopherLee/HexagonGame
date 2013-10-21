@@ -1,0 +1,5 @@
+#! /bin/sh
+
+ant clean
+ant build
+ant unit-test

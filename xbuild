@@ -1,0 +1,7 @@
+#! /bin/sh
+
+ant clean
+ant build
+ant dist
+ant server
+ant client
